@@ -164,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
                         name.setText("");
 
                         progressDialog.dismiss(); // New line of code
+
+                        startActivity(new Intent(MainActivity.this, Dashboard.class));
+                        finish();
                     } else {
                         show_alert(response.getString("response"));
                     }
