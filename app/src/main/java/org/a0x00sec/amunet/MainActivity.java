@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         StringRequest serverRequest = new StringRequest(Request.Method.POST, Configuration.getApp_auth(), new Response.Listener<String>() {
             @Override
             public void onResponse(String req) {
-                progressDialog.dismiss();
 
                 try {
 
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }).start();
 
-                        new CountDownTimer(5000,1000) {
+                        new CountDownTimer(6000,1000) {
                             @Override
                             public void onTick(long l) {
 
@@ -164,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         password.setText("");
                         name.setText("");
 
+                        progressDialog.dismiss(); // New line of code
                     } else {
                         show_alert(response.getString("response"));
                     }

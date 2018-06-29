@@ -8,4 +8,9 @@
     tools:context=".Dashboard"
     tools:showIn="@layout/activity_dashboard">
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/dashboard_recycler_view"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>
