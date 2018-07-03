@@ -87,12 +87,6 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setMessage("Creating account ...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressDialog.show();
-
                     create_phone_account();
                 }
             }
@@ -116,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void create_phone_account() {
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Creating account ...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
 
         final String phone_imei = getDeviceIMEI();
         final String phone_serial = Build.SERIAL;
@@ -155,20 +155,19 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onFinish() {
-                                show_alert(server_response);
+                                username.setText("");
+                                password.setText("");
+                                name.setText("");
+
+                                progressDialog.dismiss(); // New line of code
+
+                                startActivity(new Intent(MainActivity.this, Dashboard.class));
+                                finish();
                             }
                         }.start();
-
-                        username.setText("");
-                        password.setText("");
-                        name.setText("");
-
-                        progressDialog.dismiss(); // New line of code
-
-                        startActivity(new Intent(MainActivity.this, Dashboard.class));
-                        finish();
                     } else {
                         show_alert(response.getString("response"));
+                        progressDialog.dismiss(); // New line of code
                     }
                 } catch (Exception e) {
                     show_alert("Authentication error: " + e.getMessage());
@@ -302,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                         && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Without this permission, the desired action cannot be performed", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_LONG).show();
+                    create_phone_account();
                 }
             }
         }

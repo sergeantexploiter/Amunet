@@ -1,5 +1,9 @@
 package org.a0x00sec.amunet;
 
+import android.content.Context;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+
 public class Configuration {
 
     private static final String app_host = "play.cardfinder.co";
@@ -18,5 +22,19 @@ public class Configuration {
         return app_auth;
     }
 
-
+    protected String getDeviceIMEI(Context context) {
+        String deviceUniqueIdentifier = null;
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (null != tm) {
+            try {
+                deviceUniqueIdentifier = tm.getDeviceId();
+            } catch (SecurityException e) {
+                return null;
+            }
+        }
+        if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
+            deviceUniqueIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+        return deviceUniqueIdentifier;
+    }
 }

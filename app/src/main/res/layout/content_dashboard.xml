@@ -10,7 +10,19 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+        android:layout_above="@id/service_monitor_button"
         android:id="@+id/dashboard_recycler_view"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:text="Start MONITORING"
+        android:padding="10dp"
+        android:id="@+id/service_monitor_button"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>
