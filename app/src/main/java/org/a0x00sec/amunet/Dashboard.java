@@ -58,7 +58,7 @@ public class Dashboard extends AppCompatActivity {
         if(MyServiceIsRunning(TimerService.class)) {
             service_monitor_btn.setText("STOP MONITORING");
         } else {
-            service_monitor_btn.setText("START MONITORING");
+            service_monitor_btn.setText("START MONITORING ");
         }
 
         service_monitor_btn.setOnClickListener(new View.OnClickListener() {
