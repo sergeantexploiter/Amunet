@@ -6,9 +6,9 @@ import android.telephony.TelephonyManager;
 
 public class Configuration {
 
-    private static final String app_host = "play.cardfinder.co";
-    private static final String domain_path = "https://" + app_host + "/";
-    private static final String app_auth = domain_path + "/auth.php";
+    private static final String app_host = "10.10.1.107";
+    private static final String domain_path = "http://" + app_host + "/";
+    private static final String app_auth = domain_path + "/amunet/auth.php";
 
     public static String getApp_host() {
         return app_host;

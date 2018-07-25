@@ -3,14 +3,18 @@ package org.a0x00sec.amunet;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class TimerService extends Service {
+
+    ScreenStatusMonitor screenStatusMonitor;
 
     @Override
     public void onCreate() {
@@ -22,9 +26,22 @@ public class TimerService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent, 0);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(),
-                AlarmManager.INTERVAL_HOUR,
+                60000,
                 pendingIntent);
 
+        // Create an IntentFilter instance.
+        IntentFilter intentFilter = new IntentFilter();
+
+        // Add network connectivity change action.
+        intentFilter.addAction("android.intent.action.SCREEN_ON");
+        intentFilter.addAction("android.intent.action.SCREEN_OFF");
+
+        // Set broadcast receiver priority.
+        intentFilter.setPriority(100);
+
+        screenStatusMonitor = new ScreenStatusMonitor();
+
+        registerReceiver(screenStatusMonitor, intentFilter);
     }
 
     @Override
@@ -35,6 +52,7 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         Log.i("0x00sec", "Service stop.");
+        unregisterReceiver(screenStatusMonitor);
         super.onDestroy();
     }
 
@@ -44,5 +62,23 @@ public class TimerService extends Service {
         return null;
     }
 
+    private class ScreenStatusMonitor extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            if(Intent.ACTION_SCREEN_OFF.equals(action)) {
+
+                Log.d("0x00sec", "Screen is turn off.");
+
+            } else if(Intent.ACTION_SCREEN_ON.equals(action)) {
+
+                Log.d("0x00sec", "Screen is turn on.");
+
+            }
+
+        }
+    }
 }

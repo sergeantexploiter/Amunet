@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         StringRequest serverRequest = new StringRequest(Request.Method.POST, Configuration.getApp_auth(), new Response.Listener<String>() {
             @Override
             public void onResponse(String req) {
-
                 try {
 
                     final JSONObject response = new JSONObject(req);
@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         progressDialog.dismiss(); // New line of code
                     }
                 } catch (Exception e) {
+                    progressDialog.dismiss();
                     show_alert("Authentication error: " + e.getMessage());
                 }
             }
